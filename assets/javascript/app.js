@@ -1,11 +1,22 @@
-$(document).ready(function(){
+
+$(document).ready(function () {
     //variables
     //===========================================
     var gifs = ['IronMan', 'Thor', 'Captian America', 'Hulk', 'Spiderman', 'Superman', 'WonderWoman', 'Aquaman', 'Batman', 'Thanos', ]
-    var input = $('#input-val');
+    // var input = $('#input-val').val().trim();
     var submit = $('#submit');
-    
+
     //functions
+    $(submit).on('click', function (e) {
+     
+        arbit = $("input-val").val();
+        gifs.push(arbit)
+        console.log(gifs);
+
+        //     //========================================================
+
+    })
+    //===========================================
     //creat boottons dynamically using jquery
     for (var i = 0; i < gifs.length; i++) {
         var btn = $('<button> ');
@@ -13,21 +24,22 @@ $(document).ready(function(){
         btn.text(gifs[i]);
         $("#newDiv").append(btn);
     }
-    $('.btn').on('click', function gifAjax() {
+    $('.btn-success').on('click', function gifAjax() {
+        $('#image-avengers').empty();
         var btnText = $(this).text().trim();
         //console.log(btnText);
         var apiKey = "ieBK2wrKLQbQF98crfuxu6LiIo1e4eu0";
-        var queryUrl = "http://api.giphy.com/v1/gifs/search?q=" + btnText + "&api_key=" + apiKey + "&limit=5";
+        var queryUrl = "http://api.giphy.com/v1/gifs/search?q=" + btnText + "&api_key=" + apiKey + "&limit=10";
         //===========================================
-    
+
         $.ajax({
                 url: queryUrl,
                 method: 'GET'
             })
             .then(function (response) {
                 console.log(response);
-    
-                for (var j = 0; j < 11; j++) {
+
+                for (var j = 0; j <response.data.length; j++) {
                     var myAvengers = response.data;
                     var imageRating = myAvengers[j].rating;
                     console.log(imageRating);
@@ -42,7 +54,7 @@ $(document).ready(function(){
                     image.attr("class", "gif");
                     //add image rating to the p tag
                     rating.text("Rating : " + imageRating);
-    
+
                     //append the tags to images div
                     imageDiv.append(image);
                     imageDiv.append(rating);
@@ -50,16 +62,6 @@ $(document).ready(function(){
                 }
             });
     })
-    //main process
-    // $(submit).on('click', function () {
-           
-        
-    //        gifs.push(input);
-    //        //console.log(input);
-    //        return false;
-    //        //gifAjax();
-    //     //========================================================
-       
-    // })
-    // //===========================================
-     });
+
+   
+});
